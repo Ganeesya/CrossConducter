@@ -12,5 +12,5 @@ namespace CrossConducter
 		bool isBusy();
 		bool isEnable();
 		void output(string mes);
-	} 
+	}
 }
