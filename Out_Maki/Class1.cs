@@ -71,7 +71,7 @@ namespace Out_Maki
 		{
 			IntPtr r = FindWindow(mainclassname, "VOICEROID＋ 民安ともえ EX");
 
-			if (r == null)
+			if (r == IntPtr.Zero)
 			{
 				r = FindWindow(mainclassname, "VOICEROID＋ 民安ともえ EX*");
 			}

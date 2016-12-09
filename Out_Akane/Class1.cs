@@ -71,7 +71,7 @@ namespace Out_Akane
 		{
 			IntPtr r = FindWindow(mainclassname, "VOICEROID＋ 琴葉茜");
 
-			if (r == null)
+			if (r == IntPtr.Zero)
 			{
 				r = FindWindow(mainclassname, "VOICEROID＋ 琴葉茜*");
 			}

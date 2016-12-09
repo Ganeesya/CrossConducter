@@ -71,7 +71,7 @@ namespace Out_Zunko
 		{
 			IntPtr r = FindWindow(mainclassname, "VOICEROID＋ 東北ずん子 EX");
 
-			if (r == null)
+			if (r == IntPtr.Zero)
 			{
 				r = FindWindow(mainclassname, "VOICEROID＋ 東北ずん子 EX*");
 			}

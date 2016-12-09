@@ -69,7 +69,7 @@ namespace Out_Aoi
 		{
 			IntPtr r = FindWindow(form.config.mainclassname, form.config.titlename);
 
-			if (r == null)
+			if (r == IntPtr.Zero)
 			{
 				r = FindWindow(form.config.mainclassname, form.config.titlename+"*");
 			}

@@ -71,7 +71,7 @@ namespace Out_Yukari
 		{
 			IntPtr r = FindWindow(mainclassname, "VOICEROID＋ 結月ゆかり EX");
 
-			if (r == null)
+			if (r == IntPtr.Zero)
 			{
 				r = FindWindow(mainclassname, "VOICEROID＋ 結月ゆかり EX*");
 			}
