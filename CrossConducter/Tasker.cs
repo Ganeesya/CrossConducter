@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
+using System.Windows.Forms;
 
 namespace CrossConducter
 {
 	public class Tasker : TaskAdderInterface, TaskListDataInterface
 	{
 		private Queue<YomiageTask> queue;
+		private long lastQueueCode = 0;
 		private Thread workThread;
 		private List<CCInputInterface> inputers = new List<CCInputInterface>();
 		private List<CCOutputInterface> outputers = new List<CCOutputInterface>();
@@ -18,18 +20,22 @@ namespace CrossConducter
 		private YomiageTask nowtask;
 		public Stack<YomiageTask> log = new Stack<YomiageTask>();
 
+		private ListView taskListv;
+
 		public YomiageTask NowTask
 		{
 			get { return nowtask; }
 		}
 
-		public void init()
+		public void init(ListView taskListview)
 		{
 			queue = new Queue<YomiageTask>();
 			loadPlugins();
 
 			workThread = new Thread(new ThreadStart(outputLoop));
 			workThread.Start();
+
+			taskListv = taskListview;
 		}
 
 		private void loadPlugins()
@@ -87,6 +93,7 @@ namespace CrossConducter
 			{
 				if(queue.Count == 0 )
 				{
+					Thread.Sleep(10);
 					break;
 				}
 				nowtask = queue.Dequeue();
@@ -98,10 +105,12 @@ namespace CrossConducter
 				{
 					continue;
 				}
+				nowtask.listviewlinkitem.BackColor = System.Drawing.Color.Pink;
 				nowtask.LogTime = DateTime.Now;
 				log.Push(nowtask);
 				nowtask.DoOutput();
-								
+				nowtask.isDead = true;
+
 				nowtask = null;
 				break;
 			}
@@ -131,20 +140,24 @@ namespace CrossConducter
 			{
 				def = outputers[0];
 			}
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName, def,adder.getPluginName());
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, def,adder.getPluginName(),lastQueueCode++);
 
 			foreach(CCTaskControllInterface e in taskcontrollers)
 			{
 				e.TaskCheck(ntask);
 			}
 
+			ntask.updateListItem();
 			queue.Enqueue(ntask);
+			taskListv.Items.Add(ntask.listviewlinkitem);
 		}
 
 		public void addTaskTester(string message, string autherID, string autherName,string adder,CCOutputInterface outer)
 		{
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName, outer, adder);
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, outer, adder,lastQueueCode++);
+			ntask.updateListItem();
 			queue.Enqueue(ntask);
+			taskListv.Items.Add(ntask.listviewlinkitem);
 		}
 
 		public List<CCOutputInterface> GetOutputList()
@@ -177,8 +190,11 @@ namespace CrossConducter
 		private CCOutputInterface outputter;
 		private string from;
 		private DateTime logtime;
+		private long queuenum;
+		public ListViewItem listviewlinkitem;
+		public bool isDead;
 
-		public YomiageTask(string mes, string id, string name, CCOutputInterface def,string f)
+		public YomiageTask(string mes, string id, string name, CCOutputInterface def,string f,long qnum)
 		{
 			enable = true;
 			message = mes;
@@ -186,6 +202,21 @@ namespace CrossConducter
 			authorName = name;
 			outputter = def;
 			from = f;
+			queuenum = qnum;
+			listviewlinkitem = new ListViewItem(new string[5]{ "1","2","3","4","5"});
+			isDead = false;
+		}
+
+
+
+		public void updateListItem()
+		{
+			listviewlinkitem.SubItems[0].Text = from;
+			listviewlinkitem.SubItems[1].Text = authorName;
+			listviewlinkitem.SubItems[2].Text = authorID;
+			listviewlinkitem.SubItems[3].Text = message;
+			listviewlinkitem.SubItems[4].Text = outputter.getPluginName();
+			listviewlinkitem.Tag = this;
 		}
 
 		public bool Enable
@@ -211,6 +242,10 @@ namespace CrossConducter
 			set { this.outputter = value; }
 			get { return this.outputter; }
 		}
+		public long QueueNum
+		{
+			get { return this.queuenum; }
+		}
 
 		public void DoOutput()
 		{
@@ -219,7 +254,7 @@ namespace CrossConducter
 
 			while(outputter.isBusy())
 			{
-				Thread.Sleep(1000);
+				Thread.Sleep(500);
 			}
 
 			outputter.output(message);

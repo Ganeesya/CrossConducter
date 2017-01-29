@@ -43,7 +43,7 @@ namespace CrossConducter
 		private void Form1_Load(object sender, EventArgs e)
 		{
 			tasker = new Tasker();
-			tasker.init();
+			tasker.init( listView4);
 			logfrom = new LogForm();
 			logfrom.copy = tasker;
 			listView4.GetType().InvokeMember(
@@ -70,22 +70,40 @@ namespace CrossConducter
 		private void updateQueue()
 		{
 			toolStripStatusLabel_queue.Text = "Queue:" + tasker.GetTaskList().Count.ToString();
-
+			/*
 			listView4.BeginUpdate();
-			listView4.Items.Clear();
+			//listView4.Items.Clear();
 			if (tasker.NowTask != null)
 			{
+				/*
 				ListViewItem doing = new ListViewItem(new string[5] {
 					tasker.NowTask.From, tasker.NowTask.AuthorName, tasker.NowTask.AuthorID, tasker.NowTask.Message,tasker.NowTask.Outputer.getPluginName() });
 				doing.BackColor = Color.Pink;
-				listView4.Items.Add(doing);
-			}
+				listView4.Items.Add(doing);//
+			}//*/
+
+			/*
 			foreach (YomiageTask e in tasker.GetTaskList())
 			{
 				
 				listView4.Items.Add(new ListViewItem(new string[5] { e.From, e.AuthorName, e.AuthorID, e.Message,e.Outputer.getPluginName() }));
+			}//*//*
+			listView4.EndUpdate();//*/
+			try
+			{
+				foreach (ListViewItem ele in listView4.Items)
+				{
+					if (((YomiageTask)ele.Tag).isDead)
+					{
+						ele.Remove();
+					}
+					else
+					{
+						break;
+					}
+				}
 			}
-			listView4.EndUpdate();
+			catch { }
 		}		
 
 		private void Form1_FormClosing(object sender, FormClosingEventArgs e)
