@@ -69,7 +69,6 @@ namespace CrossConducter
 
 		private void updateQueue()
 		{
-			toolStripStatusLabel_queue.Text = "Queue:" + tasker.GetTaskList().Count.ToString();
 			/*
 			listView4.BeginUpdate();
 			//listView4.Items.Clear();
@@ -91,6 +90,7 @@ namespace CrossConducter
 			listView4.EndUpdate();//*/
 			try
 			{
+				toolStripStatusLabel_queue.Text = "Queue:" + tasker.GetTaskList().Count.ToString();
 				foreach (ListViewItem ele in listView4.Items)
 				{
 					if (((YomiageTask)ele.Tag).isDead)

@@ -85,8 +85,8 @@ namespace YoutubeReader
 					{
 						if (DateTime.Parse(e.Snippet.PublishedAtRaw) > lasttime)
 						{
-							tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, "", this);
 							lasttime = DateTime.Parse(e.Snippet.PublishedAtRaw);
+							tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, "", this);
 						}
 					}
 				}

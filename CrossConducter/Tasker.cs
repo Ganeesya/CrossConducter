@@ -20,6 +20,13 @@ namespace CrossConducter
 		private YomiageTask nowtask;
 		public Stack<YomiageTask> log = new Stack<YomiageTask>();
 
+		delegate void addingTaskDelegate(ListViewItem adder);
+
+		internal void addingTask(ListViewItem adder)
+		{
+			taskListv.Items.Add(adder);
+		}
+
 		private ListView taskListv;
 
 		public YomiageTask NowTask
@@ -149,7 +156,16 @@ namespace CrossConducter
 
 			ntask.updateListItem();
 			queue.Enqueue(ntask);
-			taskListv.Items.Add(ntask.listviewlinkitem);
+
+			if (taskListv.InvokeRequired)
+			{
+				taskListv.Invoke(new addingTaskDelegate(addingTask), ntask.listviewlinkitem);
+			}
+			else
+			{
+				taskListv.Items.Add(ntask.listviewlinkitem);
+			}
+			//taskListv.Items.Add(ntask.listviewlinkitem);
 		}
 
 		public void addTaskTester(string message, string autherID, string autherName,string adder,CCOutputInterface outer)
@@ -157,7 +173,16 @@ namespace CrossConducter
 			YomiageTask ntask = new YomiageTask(message, autherID, autherName, outer, adder,lastQueueCode++);
 			ntask.updateListItem();
 			queue.Enqueue(ntask);
-			taskListv.Items.Add(ntask.listviewlinkitem);
+
+			if (taskListv.InvokeRequired)
+			{
+				taskListv.Invoke(new addingTaskDelegate(addingTask), ntask.listviewlinkitem);
+			}
+			else
+			{
+				taskListv.Items.Add(ntask.listviewlinkitem);
+			}
+			//taskListv.Items.Add(ntask.listviewlinkitem);
 		}
 
 		public List<CCOutputInterface> GetOutputList()
