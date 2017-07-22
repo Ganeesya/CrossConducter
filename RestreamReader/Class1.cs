@@ -25,12 +25,10 @@ namespace RestreamReader
 			tai = taskadder;
 			lasttime = DateTime.Now;
 			logPointTime = DateTime.Now;
+			configdata = configs.Load("Restream.config");
 
 			readloop = new Thread(new ThreadStart(ReadingLoop));
-			readloop.Start();
-
-			configdata = configs.Load("Restream.config");
-			
+			readloop.Start();			
 		}
 
 		public string getPluginName()
@@ -41,6 +39,17 @@ namespace RestreamReader
 		private void ReadingLoop()
 		{
 			int lastReadLine = 0;
+			if (configdata.fileTarget != "")
+			{
+				using (StreamReader sr = new StreamReader(configdata.fileTarget))
+				{
+					string line;
+					while ((line = sr.ReadLine()) != null)
+					{
+						lastReadLine++;
+					}
+				}
+			}
 			while (true)
 			{
 				Thread.Sleep(1000);
@@ -96,7 +105,7 @@ namespace RestreamReader
 		private void analLogLine(string line)
 		{
 			//[16:19:16] AllChats AllChats, Broadcaster: てす
-			MatchCollection mc = Regex.Matches(line, "\\[(?<hour>\\d\\d):(?<min>\\d\\d):(?<sec>\\d\\d)\\] (?<serv>\\S+) (?<servID>[^,]+), (?<auth>[^:]+): (?<mes>[^\n]+)");
+			MatchCollection mc = Regex.Matches(line, "\\[(?<hour>\\d+):(?<min>\\d+):(?<sec>\\d+)\\] (?<serv>\\S+) (?<servID>[^,]+), (?<auth>[^:]+): (?<mes>[^\n]+)");
 
 			if (mc.Count > 0)
 			{
@@ -104,13 +113,8 @@ namespace RestreamReader
 				nlinetime = nlinetime.AddHours(int.Parse(mc[0].Groups["hour"].Value) - nlinetime.Hour);
 				nlinetime = nlinetime.AddMinutes(int.Parse(mc[0].Groups["min"].Value) - nlinetime.Minute);
 				nlinetime = nlinetime.AddSeconds(int.Parse(mc[0].Groups["sec"].Value) - nlinetime.Second);
-
-				if(lasttime < nlinetime)
-				{
-					lasttime = nlinetime;
-
-					tai.addTask(mc[0].Groups["mes"].Value, mc[0].Groups["serv"].Value, mc[0].Groups["auth"].Value, this);
-				}
+				
+				tai.addTask(mc[0].Groups["mes"].Value, mc[0].Groups["serv"].Value, mc[0].Groups["auth"].Value, this);
 			}
 		}
 

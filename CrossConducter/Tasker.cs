@@ -100,7 +100,7 @@ namespace CrossConducter
 			{
 				if(queue.Count == 0 )
 				{
-					Thread.Sleep(10);
+					Thread.Sleep(100);
 					break;
 				}
 				nowtask = queue.Dequeue();
@@ -110,6 +110,7 @@ namespace CrossConducter
 				}
 				if (!nowtask.Enable)
 				{
+					nowtask.isDead = true;
 					continue;
 				}
 				nowtask.listviewlinkitem.BackColor = System.Drawing.Color.Pink;

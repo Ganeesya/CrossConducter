@@ -99,7 +99,7 @@ namespace CrossConducter
 					}
 					else
 					{
-						break;
+						//break;
 					}
 				}
 			}
