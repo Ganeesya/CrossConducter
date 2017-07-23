@@ -62,6 +62,12 @@ namespace Task_Yomiyame
 			checkBox_Name_E.Enabled = !checkBox_Name_R.Checked;
 			textBox_Mes_R.Enabled = checkBox_Message_R.Checked | checkBox_Message_E.Checked;
 			checkBox_Message_E.Enabled = !checkBox_Message_R.Checked;
+
+			textAddSrc.Enabled = check_AddsorceE.Checked | check_Addsorce_R.Checked;
+			check_AddsorceE.Enabled = !check_Addsorce_R.Checked;
+
+			textAddSender.Enabled = checkAddSenderE.Checked | checkAddSenderR.Checked;
+			checkAddSenderE.Enabled = !checkAddSenderR.Checked;
 		}
 
 		private void button2_Click(object sender, EventArgs e)
@@ -74,6 +80,26 @@ namespace Task_Yomiyame
 		{
 			res = DialogResult.Cancel;
 			Close();
+		}
+
+		private void check_AddsorceE_CheckedChanged(object sender, EventArgs e)
+		{
+			ReEnable();
+		}
+
+		private void check_Addsorce_R_CheckedChanged(object sender, EventArgs e)
+		{
+			ReEnable();
+		}
+
+		private void checkAddSenderE_CheckedChanged(object sender, EventArgs e)
+		{
+			ReEnable();
+		}
+
+		private void checkAddSenderR_CheckedChanged(object sender, EventArgs e)
+		{
+			ReEnable();
 		}
 	}
 }

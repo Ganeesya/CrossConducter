@@ -63,13 +63,15 @@ namespace CrossConducter
 
 		public void addLog(YomiageTask ntask)
 		{
-			ListViewItem nitem = new ListViewItem(new string[6] {
+			ListViewItem nitem = new ListViewItem(new string[8] {
 						"-" +(DateTime.Now - ntask.LogTime).ToString(@"%h\:mm\:ss")
 						, ntask.AuthorName
 						, ntask.AuthorID
+						, ntask.authorAddinfo
 						, ntask.Message
 						, ntask.Outputer.getPluginName()
-						, ntask.From });
+						, ntask.From
+						, ntask.adderAddinfo});
 			nitem.Tag = ntask;
 			listView1.Items.Add(nitem);
 		}

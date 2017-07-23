@@ -77,16 +77,31 @@ namespace YoutubeReader
 					var chatIDans = chatIDReq.Execute();
 
 					var mesReq = youtubeService.LiveChatMessages.List(chatIDans.Items[0].LiveStreamingDetails.ActiveLiveChatId, "snippet");
-
+					mesReq.MaxResults = 200;
 					var mesAns = mesReq.Execute();
+					
 
 					//textBox1.Text = channelans.ToString();
+					
 					foreach (var e in mesAns.Items)
 					{
 						if (DateTime.Parse(e.Snippet.PublishedAtRaw) > lasttime)
 						{
 							lasttime = DateTime.Parse(e.Snippet.PublishedAtRaw);
-							tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, "", this);
+							if (e.Snippet.TextMessageDetails != null)
+							{
+								var nameReq = youtubeService.Channels.List("brandingSettings");
+								nameReq.Id = e.Snippet.AuthorChannelId;
+								var name = nameReq.Execute();
+								tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title,"", this,"");
+							}
+							else if(e.Snippet.SuperChatDetails != null)
+							{
+								var nameReq = youtubeService.Channels.List("brandingSettings");
+								nameReq.Id = e.Snippet.AuthorChannelId;
+								var name = nameReq.Execute();
+								tai.addTask(e.Snippet.SuperChatDetails.UserComment, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, e.Snippet.SuperChatDetails.AmountDisplayString, this, "SuperChat");
+							}
 						}
 					}
 				}

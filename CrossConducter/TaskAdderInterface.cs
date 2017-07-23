@@ -8,7 +8,7 @@ namespace CrossConducter
 {
 	public interface TaskAdderInterface
 	{
-		void addTask(string message,string autherID,string autherName, CCInputInterface adder);
+		void addTask(string message, string autherID, string autherName, string autherAddinfo, CCInputInterface adder, string adderAddinfo);
 	}
 
 	public interface TaskListDataInterface

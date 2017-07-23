@@ -64,22 +64,34 @@ namespace Task_Yomikae
 		public bool b_Mes_R;
 		public string d_Mes;
 
+		public string d_AddSender;
+		public bool b_AddSender_E;
+		public bool b_AddSender_R;
+
+		public string d_AddAdder;
+		public bool b_AddAdder_E;
+		public bool b_AddAdder_R;
+
 		public string toChange;
 
 		public override string ToString()
 		{
 			return (b_Sorse ? ("Souce=" + d_Sorse + " ") : "")
 					+ (b_ID ? ("ID="+d_ID+" "): "")
-					+ (b_Name_R ? ("Name in ("+d_Name+") ") : "" )
-					+ ((b_Name_E&!b_Name_R)? ("Name="+ d_Name + ""):"")
+					+ (b_Name_R ? ("Name in (" + d_Name + ") ") : "")
+					+ ((b_Name_E & !b_Name_R) ? ("Name=" + d_Name + "") : "")
+					+ (b_AddSender_R ? ("備考 in (" + d_AddSender + ") ") : "")
+					+ ((b_AddSender_E & !b_AddSender_R) ? ("備考=" + d_AddSender + "") : "")
 					+ (b_Mes_R ? ("Message in (" + d_Mes + ") ") : "" )
-					+ ((b_Mes_E&!b_Mes_R) ? ("Message="+d_Mes+" " ) : "" )
+					+ ((b_Mes_E&!b_Mes_R) ? ("Message="+d_Mes+" " ) : "")
+					+ (b_AddAdder_R ? ("追加情報 in (" + d_AddAdder + ") ") : "")
+					+ ((b_AddAdder_E & !b_AddAdder_R) ? ("追加情報=" + d_AddAdder + "") : "")
 					+ " >>> Change to " +toChange;
 		}
 
 		public bool isHit(YomiageTask ntask)
 		{
-			return isSorceHit(ntask) && isIDHit(ntask) && isNameHit(ntask) && isMessageHit(ntask);
+			return isSorceHit(ntask) && isIDHit(ntask) && isNameHit(ntask) && isMessageHit(ntask) && isAddAdder(ntask) && isAddSender(ntask);
 		}
 
 		private bool isSorceHit(YomiageTask ntask)
@@ -118,6 +130,27 @@ namespace Task_Yomikae
 			return false;
 		}
 
+		private bool isAddAdder(YomiageTask ntask)
+		{
+			if (b_AddAdder_R & Regex.IsMatch(ntask.adderAddinfo, d_AddAdder))
+				return true;
+			if (b_AddAdder_E & !b_AddAdder_R & d_AddAdder == ntask.Message)
+				return true;
+			if (!b_AddAdder_E & !b_AddAdder_R)
+				return true;
+			return false;
+		}
+
+		private bool isAddSender(YomiageTask ntask)
+		{
+			if (b_AddSender_R & Regex.IsMatch(ntask.authorAddinfo, d_AddSender))
+				return true;
+			if (b_AddSender_E & !b_AddSender_R & d_AddSender == ntask.Message)
+				return true;
+			if (!b_AddSender_E & !b_AddSender_R)
+				return true;
+			return false;
+		}
 
 		public Condition Load(string path)
 		{

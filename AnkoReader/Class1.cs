@@ -59,7 +59,7 @@ namespace AnkoReader
 					
 					string resMsg = Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Length);//*/
 
-					adder.addTask(ndata.Message, ndata.AuthorID, ndata.AuthorName, this);
+					adder.addTask(ndata.Message, ndata.AuthorID, ndata.AuthorName,"", this,"");
 
 					//ms.Close();
 

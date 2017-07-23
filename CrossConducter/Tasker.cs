@@ -141,14 +141,14 @@ namespace CrossConducter
 			workThread.Abort();
 		}
 
-		public void addTask(string message, string autherID, string autherName, CCInputInterface adder)
+		public void addTask(string message, string autherID, string autherName, string autherAddinfo, CCInputInterface adder, string adderAddinfo)
 		{
 			CCOutputInterface def = null;
 			if(outputers.Count > 0)
 			{
 				def = outputers[0];
 			}
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName, def,adder.getPluginName(),lastQueueCode++);
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, autherAddinfo, def,adder.getPluginName(),adderAddinfo,lastQueueCode++);
 
 			foreach(CCTaskControllInterface e in taskcontrollers)
 			{
@@ -171,7 +171,7 @@ namespace CrossConducter
 
 		public void addTaskTester(string message, string autherID, string autherName,string adder,CCOutputInterface outer)
 		{
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName, outer, adder,lastQueueCode++);
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName,"", outer, adder,"",lastQueueCode++);
 			ntask.updateListItem();
 			queue.Enqueue(ntask);
 
@@ -219,8 +219,10 @@ namespace CrossConducter
 		private long queuenum;
 		public ListViewItem listviewlinkitem;
 		public bool isDead;
+		public string authorAddinfo;
+		public string adderAddinfo;
 
-		public YomiageTask(string mes, string id, string name, CCOutputInterface def,string f,long qnum)
+		public YomiageTask(string mes, string id, string name,string auAd, CCOutputInterface def,string f,string addAd,long qnum)
 		{
 			enable = true;
 			message = mes;
@@ -229,8 +231,10 @@ namespace CrossConducter
 			outputter = def;
 			from = f;
 			queuenum = qnum;
-			listviewlinkitem = new ListViewItem(new string[5]{ "1","2","3","4","5"});
+			listviewlinkitem = new ListViewItem(new string[7]{ "1","2","3","4","5","6","7"});
 			isDead = false;
+			authorAddinfo = auAd;
+			adderAddinfo = addAd;
 		}
 
 
@@ -238,10 +242,12 @@ namespace CrossConducter
 		public void updateListItem()
 		{
 			listviewlinkitem.SubItems[0].Text = from;
-			listviewlinkitem.SubItems[1].Text = authorName;
-			listviewlinkitem.SubItems[2].Text = authorID;
-			listviewlinkitem.SubItems[3].Text = message;
-			listviewlinkitem.SubItems[4].Text = outputter.getPluginName();
+			listviewlinkitem.SubItems[1].Text = adderAddinfo;
+			listviewlinkitem.SubItems[2].Text = authorName;
+			listviewlinkitem.SubItems[3].Text = authorID;
+			listviewlinkitem.SubItems[4].Text = authorAddinfo;
+			listviewlinkitem.SubItems[5].Text = message;
+			listviewlinkitem.SubItems[6].Text = outputter.getPluginName();
 			listviewlinkitem.Tag = this;
 		}
 

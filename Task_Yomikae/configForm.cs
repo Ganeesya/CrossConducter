@@ -52,6 +52,14 @@ namespace Task_Yomikae
 			cf.comboBox_Sorce.Text = select.d_Sorse;
 			cf.comboBox_ToChange.Text = select.toChange;
 
+			cf.textAddSender.Text = select.d_AddSender;
+			cf.checkAddSenderE.Checked = select.b_AddSender_E;
+			cf.checkAddSenderR.Checked = select.b_AddSender_R;
+
+			cf.textAddSrc.Text = select.d_AddAdder;
+			cf.check_AddsorceE.Checked = select.b_AddAdder_E;
+			cf.check_Addsorce_R.Checked = select.b_AddAdder_R;
+
 			cf.ShowDialog();
 
 			if (cf.res == DialogResult.OK)
@@ -68,7 +76,15 @@ namespace Task_Yomikae
 				select.d_Name = cf.textBox_Name_R.Text;
 				select.d_Sorse = cf.comboBox_Sorce.Text;
 				select.toChange = cf.comboBox_ToChange.Text;
-				
+
+				select.d_AddAdder = cf.textAddSrc.Text;
+				select.b_AddAdder_E = cf.check_AddsorceE.Checked;
+				select.b_AddAdder_R = cf.check_Addsorce_R.Checked;
+
+				select.d_AddSender = cf.textAddSender.Text;
+				select.b_AddSender_E = cf.checkAddSenderE.Checked;
+				select.b_AddSender_R = cf.checkAddSenderR.Checked;
+
 				cList.Save("Task_Yomikae.config");
 			}
 		}
@@ -108,6 +124,14 @@ namespace Task_Yomikae
 				add.d_Name = cf.textBox_Name_R.Text;
 				add.d_Sorse = cf.comboBox_Sorce.Text;
 				add.toChange = cf.comboBox_ToChange.Text;
+
+				add.d_AddAdder = cf.textAddSrc.Text;
+				add.b_AddAdder_E = cf.check_AddsorceE.Checked;
+				add.b_AddAdder_R = cf.check_Addsorce_R.Checked;
+
+				add.d_AddSender = cf.textAddSender.Text;
+				add.b_AddSender_E = cf.checkAddSenderE.Checked;
+				add.b_AddSender_R = cf.checkAddSenderR.Checked;
 
 				cList.clist.Add(add);
 				cList.Save("Task_Yomikae.config");

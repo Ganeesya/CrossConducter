@@ -114,7 +114,7 @@ namespace RestreamReader
 				nlinetime = nlinetime.AddMinutes(int.Parse(mc[0].Groups["min"].Value) - nlinetime.Minute);
 				nlinetime = nlinetime.AddSeconds(int.Parse(mc[0].Groups["sec"].Value) - nlinetime.Second);
 				
-				tai.addTask(mc[0].Groups["mes"].Value, mc[0].Groups["serv"].Value, mc[0].Groups["auth"].Value, this);
+				tai.addTask(mc[0].Groups["mes"].Value, mc[0].Groups["servID"].Value, mc[0].Groups["auth"].Value,"", this, mc[0].Groups["serv"].Value);
 			}
 		}
 
