@@ -11,6 +11,6 @@ namespace CrossConducter
 		void init();
 		bool isBusy();
 		bool isEnable();
-		void output(string mes);
+		void output(string mes,int speed);
 	}
 }

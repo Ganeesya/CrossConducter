@@ -60,11 +60,11 @@ namespace Out_Bouyomi
 			return r;
 		}
 
-		public void output(string mes)
+		public void output(string mes, int speed)
 		{
 			try
 			{
-				bcc.AddTalkTask(mes);
+				bcc.AddTalkTask(mes,speed,-1,VoiceType.Default);
 			}
 			catch { }
 		}

@@ -38,11 +38,15 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.textBox_title = new System.Windows.Forms.TextBox();
 			this.label4 = new System.Windows.Forms.Label();
+			this.textBox_tab = new System.Windows.Forms.TextBox();
+			this.TabClassName = new System.Windows.Forms.Label();
+			this.textBox_Edit = new System.Windows.Forms.TextBox();
+			this.label6 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// button_cansel
 			// 
-			this.button_cansel.Location = new System.Drawing.Point(326, 112);
+			this.button_cansel.Location = new System.Drawing.Point(326, 162);
 			this.button_cansel.Name = "button_cansel";
 			this.button_cansel.Size = new System.Drawing.Size(75, 23);
 			this.button_cansel.TabIndex = 0;
@@ -52,7 +56,7 @@
 			// 
 			// button_ok
 			// 
-			this.button_ok.Location = new System.Drawing.Point(245, 112);
+			this.button_ok.Location = new System.Drawing.Point(245, 162);
 			this.button_ok.Name = "button_ok";
 			this.button_ok.Size = new System.Drawing.Size(75, 23);
 			this.button_ok.TabIndex = 1;
@@ -110,7 +114,7 @@
 			// 
 			// textBox_title
 			// 
-			this.textBox_title.Location = new System.Drawing.Point(125, 87);
+			this.textBox_title.Location = new System.Drawing.Point(125, 137);
 			this.textBox_title.Name = "textBox_title";
 			this.textBox_title.Size = new System.Drawing.Size(276, 19);
 			this.textBox_title.TabIndex = 8;
@@ -118,18 +122,54 @@
 			// label4
 			// 
 			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(13, 90);
+			this.label4.Location = new System.Drawing.Point(13, 140);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(66, 12);
 			this.label4.TabIndex = 9;
 			this.label4.Text = "WindowTitle";
 			// 
+			// textBox_tab
+			// 
+			this.textBox_tab.Location = new System.Drawing.Point(125, 87);
+			this.textBox_tab.Name = "textBox_tab";
+			this.textBox_tab.Size = new System.Drawing.Size(276, 19);
+			this.textBox_tab.TabIndex = 8;
+			// 
+			// TabClassName
+			// 
+			this.TabClassName.AutoSize = true;
+			this.TabClassName.Location = new System.Drawing.Point(13, 90);
+			this.TabClassName.Name = "TabClassName";
+			this.TabClassName.Size = new System.Drawing.Size(82, 12);
+			this.TabClassName.TabIndex = 9;
+			this.TabClassName.Text = "TabClassName";
+			// 
+			// textBox_Edit
+			// 
+			this.textBox_Edit.Location = new System.Drawing.Point(125, 112);
+			this.textBox_Edit.Name = "textBox_Edit";
+			this.textBox_Edit.Size = new System.Drawing.Size(276, 19);
+			this.textBox_Edit.TabIndex = 8;
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(13, 115);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(83, 12);
+			this.label6.TabIndex = 9;
+			this.label6.Text = "EditClassName";
+			// 
 			// VoiceroidConfigForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(413, 143);
+			this.ClientSize = new System.Drawing.Size(413, 192);
+			this.Controls.Add(this.label6);
+			this.Controls.Add(this.TabClassName);
 			this.Controls.Add(this.label4);
+			this.Controls.Add(this.textBox_Edit);
+			this.Controls.Add(this.textBox_tab);
 			this.Controls.Add(this.textBox_title);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
@@ -159,5 +199,9 @@
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox textBox_title;
 		private System.Windows.Forms.Label label4;
+		private System.Windows.Forms.TextBox textBox_tab;
+		private System.Windows.Forms.Label TabClassName;
+		private System.Windows.Forms.TextBox textBox_Edit;
+		private System.Windows.Forms.Label label6;
 	}
 }

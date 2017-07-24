@@ -16,15 +16,22 @@ namespace VoiceroidConfigForm
 	{
 		public VoiroConfig config;
 
-		private string configfname = "Out_Aoi.config";
+		private string configfname = ".config";
 
-		public VoiceroidConfigForm()
+		public VoiceroidConfigForm(string title)
 		{
 			InitializeComponent();
+			configfname = title + ".config";
 			config = VoiroConfig.Load(configfname);
 			textBox_main.Text = config.mainclassname;
 			textBox_rich.Text = config.richtextclassname;
 			textBox_butten.Text = config.buttenclassname;
+			textBox_tab.Text = config.tabclassname;
+			textBox_Edit.Text = config.editboxclassname;
+			if( config.titlename == "" )
+			{
+				config.titlename = title;
+			}
 			textBox_title.Text = config.titlename;
 		}
 
@@ -34,17 +41,33 @@ namespace VoiceroidConfigForm
 			config.richtextclassname = textBox_rich.Text;
 			config.buttenclassname = textBox_butten.Text;
 			config.titlename = textBox_title.Text;
+			config.tabclassname = textBox_tab.Text;
+			config.editboxclassname = textBox_Edit.Text;
+			config.Save(configfname);
 			Hide();
 		}
 
 		private void button_cansel_Click(object sender, EventArgs e)
 		{
 			Hide();
+			textBox_main.Text = config.mainclassname;
+			textBox_rich.Text = config.richtextclassname;
+			textBox_butten.Text = config.buttenclassname;
+			textBox_title.Text = config.titlename;
+			textBox_tab.Text = config.tabclassname;
+			textBox_Edit.Text = config.editboxclassname;
 		}
 
 		private void VoiceroidConfigForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			e.Cancel = true;
+			Hide();
+			textBox_main.Text = config.mainclassname;
+			textBox_rich.Text = config.richtextclassname;
+			textBox_butten.Text = config.buttenclassname;
+			textBox_title.Text = config.titlename;
+			textBox_tab.Text = config.tabclassname;
+			textBox_Edit.Text = config.editboxclassname;
 		}
 	}
 
@@ -57,7 +80,11 @@ namespace VoiceroidConfigForm
 
 		public string buttenclassname = "WindowsForms10.BUTTON.app.0.378734a";
 
-		public string titlename = "VOICEROID＋ 琴葉葵";
+		public string tabclassname = "WindowsForms10.SysTabControl32.app.0.378734a";
+
+		public string editboxclassname = "WindowsForms10.EDIT.app.0.378734a";
+
+		public string titlename = "";
 
 		public static VoiroConfig Load(string path)
 		{

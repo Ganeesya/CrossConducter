@@ -275,6 +275,7 @@ namespace CrossConducter
 		public bool isDead;
 		public string authorAddinfo;
 		public string srcAddinfo;
+		public int Speed;
 
 		public YomiageTask(string mes, string id, string name,string auAd, CCOutputInterface def,string f,string addAd,long qnum)
 		{
@@ -289,6 +290,7 @@ namespace CrossConducter
 			isDead = false;
 			authorAddinfo = auAd;
 			srcAddinfo = addAd;
+			Speed = 100;
 		}
 
 
@@ -343,7 +345,7 @@ namespace CrossConducter
 				Thread.Sleep(500);
 			}
 
-			outputter.output(message);
+			outputter.output(message,Speed);
 
 			DateTime starttime = DateTime.Now;
 
