@@ -85,7 +85,7 @@ namespace Task_Yomiyame
 
 		private bool isSorceHit(YomiageTask ntask)
 		{
-			if (!b_Sorse | d_Sorse == ntask.From)
+			if (!b_Sorse | d_Sorse == ntask.Src)
 				return true;
 			return false;
 		}
@@ -121,7 +121,7 @@ namespace Task_Yomiyame
 
 		private bool isAddAdder(YomiageTask ntask)
 		{
-			if (b_AddAdder_R & Regex.IsMatch(ntask.adderAddinfo, d_AddAdder))
+			if (b_AddAdder_R & Regex.IsMatch(ntask.srcAddinfo, d_AddAdder))
 				return true;
 			if (b_AddAdder_E & !b_AddAdder_R & d_AddAdder == ntask.Message)
 				return true;

@@ -20,6 +20,8 @@ namespace CrossConducter
 		private YomiageTask nowtask;
 		public Stack<YomiageTask> log = new Stack<YomiageTask>();
 
+		private List<YomiageTask> afterAddTasks;
+
 		delegate void addingTaskDelegate(ListViewItem adder);
 
 		internal void addingTask(ListViewItem adder)
@@ -37,6 +39,8 @@ namespace CrossConducter
 		public void init(ListView taskListview)
 		{
 			queue = new Queue<YomiageTask>();
+			afterAddTasks = new List<YomiageTask>();
+
 			loadPlugins();
 
 			workThread = new Thread(new ThreadStart(outputLoop));
@@ -148,7 +152,11 @@ namespace CrossConducter
 			{
 				def = outputers[0];
 			}
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName, autherAddinfo, def,adder.getPluginName(),adderAddinfo,lastQueueCode++);
+			string srcName = "";
+			if (adder != null)
+				srcName = adder.getPluginName();
+			
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, autherAddinfo, def, srcName, adderAddinfo,lastQueueCode++);
 
 			foreach(CCTaskControllInterface e in taskcontrollers)
 			{
@@ -166,12 +174,58 @@ namespace CrossConducter
 			{
 				taskListv.Items.Add(ntask.listviewlinkitem);
 			}
+
+			afterStackExcute();
 			//taskListv.Items.Add(ntask.listviewlinkitem);
 		}
 
-		public void addTaskTester(string message, string autherID, string autherName,string adder,CCOutputInterface outer)
+		private void afterStackExcute()
 		{
-			YomiageTask ntask = new YomiageTask(message, autherID, autherName,"", outer, adder,"",lastQueueCode++);
+			foreach(var ele in afterAddTasks)
+			{
+				ele.updateListItem();
+				queue.Enqueue(ele);
+
+				if (taskListv.InvokeRequired)
+				{
+					taskListv.Invoke(new addingTaskDelegate(addingTask), ele.listviewlinkitem);
+				}
+				else
+				{
+					taskListv.Items.Add(ele.listviewlinkitem);
+				}
+			}
+
+			afterAddTasks.Clear();
+		}
+
+		public void addTaskAfter(string message, string autherID, string autherName, string auAd, string src, string srcAdd, CCOutputInterface outer)
+		{
+
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, auAd, outer, src, srcAdd, lastQueueCode++);
+
+			afterAddTasks.Add(ntask);
+		}
+
+		public void addTaskBefore(string message, string autherID, string autherName, string auAd, string src, string srcAdd, CCOutputInterface outer)
+		{
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, auAd, outer, src, srcAdd, lastQueueCode++);
+			ntask.updateListItem();
+			queue.Enqueue(ntask);
+
+			if (taskListv.InvokeRequired)
+			{
+				taskListv.Invoke(new addingTaskDelegate(addingTask), ntask.listviewlinkitem);
+			}
+			else
+			{
+				taskListv.Items.Add(ntask.listviewlinkitem);
+			}
+		}
+
+		public void addTaskTester(string message, string autherID, string autherName, string auAd, string src,string srcAdd,CCOutputInterface outer)
+		{
+			YomiageTask ntask = new YomiageTask(message, autherID, autherName, auAd, outer, src, srcAdd, lastQueueCode++);
 			ntask.updateListItem();
 			queue.Enqueue(ntask);
 
@@ -214,13 +268,13 @@ namespace CrossConducter
 		private string authorID;
 		private string authorName;
 		private CCOutputInterface outputter;
-		private string from;
+		private string src;
 		private DateTime logtime;
 		private long queuenum;
 		public ListViewItem listviewlinkitem;
 		public bool isDead;
 		public string authorAddinfo;
-		public string adderAddinfo;
+		public string srcAddinfo;
 
 		public YomiageTask(string mes, string id, string name,string auAd, CCOutputInterface def,string f,string addAd,long qnum)
 		{
@@ -229,20 +283,20 @@ namespace CrossConducter
 			authorID = id;
 			authorName = name;
 			outputter = def;
-			from = f;
+			src = f;
 			queuenum = qnum;
 			listviewlinkitem = new ListViewItem(new string[7]{ "1","2","3","4","5","6","7"});
 			isDead = false;
 			authorAddinfo = auAd;
-			adderAddinfo = addAd;
+			srcAddinfo = addAd;
 		}
 
 
 
 		public void updateListItem()
 		{
-			listviewlinkitem.SubItems[0].Text = from;
-			listviewlinkitem.SubItems[1].Text = adderAddinfo;
+			listviewlinkitem.SubItems[0].Text = src;
+			listviewlinkitem.SubItems[1].Text = srcAddinfo;
 			listviewlinkitem.SubItems[2].Text = authorName;
 			listviewlinkitem.SubItems[3].Text = authorID;
 			listviewlinkitem.SubItems[4].Text = authorAddinfo;
@@ -308,9 +362,9 @@ namespace CrossConducter
 			}
 		}
 
-		public string From
+		public string Src
 		{
-			get { return from; }
+			get { return src; }
 		}
 
 		public DateTime LogTime

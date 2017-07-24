@@ -16,5 +16,8 @@ namespace CrossConducter
 		List<CCInputInterface> GetInputList();
 		List<CCOutputInterface> GetOutputList();
 		List<YomiageTask> GetTaskList();
+
+		void addTaskAfter(string message, string autherID, string autherName, string auAd, string src, string srcAdd, CCOutputInterface outer);
+		void addTaskBefore(string message, string autherID, string autherName, string auAd, string src, string srcAdd, CCOutputInterface outer);
 	}
 }

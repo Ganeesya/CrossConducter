@@ -70,8 +70,8 @@ namespace CrossConducter
 						, ntask.authorAddinfo
 						, ntask.Message
 						, ntask.Outputer.getPluginName()
-						, ntask.From
-						, ntask.adderAddinfo});
+						, ntask.Src
+						, ntask.srcAddinfo});
 			nitem.Tag = ntask;
 			listView1.Items.Add(nitem);
 		}

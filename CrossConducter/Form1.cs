@@ -130,7 +130,7 @@ namespace CrossConducter
 		{
 			foreach(CCOutputInterface ele in tasker.GetOutputList())
 			{
-				tasker.addTaskTester("アウトプットのテストです", "testID", "テスト", "テストオーナー",ele);
+				tasker.addTaskTester("アウトプットのテストです", "testID", "テスト","", "テストオーナー","",ele);
 			}
 		}
 
