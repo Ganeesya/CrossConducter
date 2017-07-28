@@ -36,14 +36,20 @@
 			// 
 			// textBox_script
 			// 
+			this.textBox_script.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox_script.Location = new System.Drawing.Point(14, 47);
 			this.textBox_script.Multiline = true;
 			this.textBox_script.Name = "textBox_script";
+			this.textBox_script.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.textBox_script.Size = new System.Drawing.Size(678, 417);
 			this.textBox_script.TabIndex = 0;
 			// 
 			// textBox_debug
 			// 
+			this.textBox_debug.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox_debug.Location = new System.Drawing.Point(12, 470);
 			this.textBox_debug.Multiline = true;
 			this.textBox_debug.Name = "textBox_debug";
@@ -52,6 +58,7 @@
 			// 
 			// butten_FileSelect
 			// 
+			this.butten_FileSelect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.butten_FileSelect.Location = new System.Drawing.Point(617, 12);
 			this.butten_FileSelect.Name = "butten_FileSelect";
 			this.butten_FileSelect.Size = new System.Drawing.Size(75, 23);

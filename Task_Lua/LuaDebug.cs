@@ -29,10 +29,12 @@ namespace Task_Lua
 			if (parent.configdata.fileTarget == "")
 			{
 				label_filename.Text = "未指定です";
+				textBox_script.Text = "";
 			}
 			else
 			{
 				label_filename.Text = parent.configdata.fileTarget;
+				textBox_script.Text = File.ReadAllText(parent.configdata.fileTarget);
 			}
 		}
 
@@ -71,7 +73,7 @@ namespace Task_Lua
 
 		public void updateDebug(string txt, Color c)
 		{
-			textBox_debug.Text = "done";
+			textBox_debug.Text = txt;
 			textBox_debug.ForeColor = System.Drawing.Color.Black;
 		}
 	}

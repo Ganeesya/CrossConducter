@@ -9,6 +9,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.Drawing;
+using System.Net.Sockets;
 
 namespace Task_Lua
 {
@@ -18,6 +19,10 @@ namespace Task_Lua
 		LuaDebug ddig = new LuaDebug();
 		TaskListDataInterface tasker;
 		Lua lua = new Lua();
+
+		UdpClient udp = new UdpClient();
+
+		string debugbuffer = "";
 
 		List<YomiageTask> addlist = new List<YomiageTask>();
 
@@ -31,6 +36,8 @@ namespace Task_Lua
 
 			lua.RegisterFunction("addTask", this, GetType().GetMethod("addTask"));
 			lua.RegisterFunction("addTaskBefore", this, GetType().GetMethod("addTaskBefore"));
+			lua.RegisterFunction("debug", this, GetType().GetMethod("debugAddlog"));
+			lua.RegisterFunction("udpsend", this, GetType().GetMethod("udpsend")); 
 		}
 
 		public string getPluginName()
@@ -47,20 +54,20 @@ namespace Task_Lua
 
 			try
 			{
-				lua.DoString("task="+ toLuaTable(ntask));
+				lua.DoString(Encoding.UTF8.GetBytes( "task="+ toLuaTable(ntask)));
 
-				lua.DoString("list={}");
+				lua.DoString(Encoding.UTF8.GetBytes("list={}"));
 				int i = 1;
 				foreach(YomiageTask ele in tasker.GetTaskList())
 				{
-					lua.DoString("list[" + i++ + "]=" + toLuaTable(ele));
+					lua.DoString(Encoding.UTF8.GetBytes("list[" + i++ + "]=" + toLuaTable(ele)));
 				}
 			}
 			catch( NLua.Exceptions.LuaException e)
 			{
 				callDebudUp("precode\n"+e.Message, Color.Red);
-				ddig.textBox_debug.Text = e.Message;
-				ddig.textBox_debug.ForeColor = System.Drawing.Color.Red;
+				//ddig.textBox_debug.Text = e.Message;
+				//ddig.textBox_debug.ForeColor = System.Drawing.Color.Red;
 				return;
 			}
 
@@ -73,6 +80,7 @@ namespace Task_Lua
 				callDebudUp(e.Message, Color.Red);
 				//ddig.textBox_debug.Text = e.Message;
 				//ddig.textBox_debug.ForeColor = System.Drawing.Color.Red;
+				ntask.isDead = true;
 				return;
 			}
 
@@ -88,28 +96,30 @@ namespace Task_Lua
 		{
 			if( ddig.InvokeRequired )
 			{
-				ddig.Invoke(ddig.updateDebugDel,new object[2]{ txt,c});
+				ddig.Invoke(ddig.updateDebugDel,new object[2]{ debugbuffer+txt,c});
 			}
 			else
 			{
-				ddig.updateDebug(txt, c);
+				ddig.updateDebug(debugbuffer + txt, c);
 			}
+			debugbuffer = "";
 		}
 
 		private string toLuaTable(YomiageTask ntask)
 		{
 			return "{" +
-			"srcAddinfo = \"" + ntask.srcAddinfo + "\"," +
-			"authorAddinfo = \"" + ntask.authorAddinfo + "\"," +
-			"AuthorID = \"" + ntask.AuthorID + "\"," +
-			"AuthorName = \"" + ntask.AuthorName + "\"," +
-			"Enable = \"" + ntask.Enable.ToString() + "\"," +
-			"isDead = \"" + ntask.isDead.ToString() + "\"," +
-			"LogTime = \"" + ntask.LogTime.ToString() + "\"," +
-			"Message = \"" + Encoding.GetEncoding(932).GetString(Encoding.UTF8.GetBytes( ntask.Message)) + "\"," +
-			"Outputer = \"" + ntask.Outputer.getPluginName() + "\"," +
-			"QueueNum = \"" + ntask.QueueNum.ToString() + "\"," +
-			"Src = \"" + ntask.Src + "\"}";
+			"srcAddinfo = \"" + ntask.srcAddinfo.Replace("\"","") + "\" ," +
+			"authorAddinfo = \"" + ntask.authorAddinfo.Replace("\"", "") + "\" ," +
+			"AuthorID = \"" + ntask.AuthorID.Replace("\"", "") + "\" ," +
+			"AuthorName = \"" + ntask.AuthorName.Replace("\"", "") + "\" ," +
+			"Enable = \"" + ntask.Enable.ToString() + "\" ," +
+			"isDead = \"" + ntask.isDead.ToString() + "\" ," +
+			"LogTime = \"" + ntask.LogTime.ToString() + "\" ," +
+			"Message = \"" + ntask.Message.Replace("\"", "") + "\" ," +
+			"Outputer = \"" + ntask.Outputer.getPluginName() + "\" ," +
+			"QueueNum = \"" + ntask.QueueNum.ToString() + "\" ," +
+			"Speed = \"" + ntask.Speed.ToString() + "\" ," +
+			"Src = \"" + ntask.Src + "\" }";
 		}
 
 		private void updateTask(YomiageTask target)
@@ -119,6 +129,7 @@ namespace Task_Lua
 			target.isDead = lua.GetString("task.isDead") == "True";
 			target.Message = lua.GetString("task.Message");
 			target.srcAddinfo = lua.GetString("task.srcAddinfo");
+			target.Speed = int.Parse(lua.GetString("task.Speed"));
 
 			foreach (CCOutputInterface e in tasker.GetOutputList())
 			{
@@ -160,6 +171,17 @@ namespace Task_Lua
 			//addlist.Add(new YomiageTask(mes,id,name,auAd, outI, "LuaSYSTEM",srcAd,-1));
 		}
 
+		public void debugAddlog( string log )
+		{
+			debugbuffer = debugbuffer + log + "\n";
+		}
+
+		public void udpsend(string mes,string target,int port)
+		{
+			byte[] by = Encoding.UTF8.GetBytes(mes);
+			udp.Send(by, by.Length, target, port);
+		}
+
 		public void openConfig()
 		{
 			ddig.Show();
@@ -174,6 +196,7 @@ namespace Task_Lua
 		public void close()
 		{
 			ddig.Close();
+			udp.Close();
 		}
 	}
 

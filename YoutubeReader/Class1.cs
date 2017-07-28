@@ -93,14 +93,32 @@ namespace YoutubeReader
 								var nameReq = youtubeService.Channels.List("brandingSettings");
 								nameReq.Id = e.Snippet.AuthorChannelId;
 								var name = nameReq.Execute();
-								tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title,"", this,"");
+								string auadinfo = "";
+								if (e.Snippet.AuthorChannelId == configdata.ChannnelID)
+								{
+									auadinfo = "owner";
+								}
+								else
+								{
+									try
+									{
+										var ModeratorsReq = youtubeService.LiveChatModerators.List(chatIDans.Items[0].LiveStreamingDetails.ActiveLiveChatId, "snippet");
+										var Moderators = ModeratorsReq.Execute();
+										if (Moderators.Items.Any(x => x.Snippet.ModeratorDetails.ChannelId == configdata.ChannnelID))
+										{
+											auadinfo = "moderator";
+										}
+									}
+									catch { }
+								}
+								tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, auadinfo, this,"");
 							}
 							else if(e.Snippet.SuperChatDetails != null)
 							{
 								var nameReq = youtubeService.Channels.List("brandingSettings");
 								nameReq.Id = e.Snippet.AuthorChannelId;
 								var name = nameReq.Execute();
-								tai.addTask(e.Snippet.SuperChatDetails.UserComment, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, e.Snippet.SuperChatDetails.AmountDisplayString, this, "SuperChat");
+								tai.addTask(e.Snippet.SuperChatDetails.UserComment, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, "SuperChat", this, e.Snippet.SuperChatDetails.AmountDisplayString);
 							}
 						}
 					}
