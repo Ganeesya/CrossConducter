@@ -18,7 +18,9 @@ namespace YoutubeReader
 			set {
 				copy = value;
 				this.textBoxChannel.Text = value.ChannnelID;
-				this.textBoxApiKey.Text = value.APIKey;}
+				this.textBoxApiKey.Text = value.APIKey;
+				this.checkBox_OnlySuperChat.Checked = value.OnlySuperchat;
+			}
 			get { return this.copy; }
 		}
 
@@ -31,6 +33,7 @@ namespace YoutubeReader
 		{
 			copy.APIKey = textBoxApiKey.Text;
 			copy.ChannnelID = textBoxChannel.Text;
+			copy.OnlySuperchat = checkBox_OnlySuperChat.Checked;
 			this.Close();
 		}
 

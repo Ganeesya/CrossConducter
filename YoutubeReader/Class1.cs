@@ -25,6 +25,7 @@ namespace YoutubeReader
 		DateTime lasttime;
 		configs configdata;
 		ConfigForm cform;
+		bool enable = true;
 
 		public void init(TaskAdderInterface taskadder)
 		{
@@ -40,6 +41,16 @@ namespace YoutubeReader
 			cform.Copy = configdata;
 		}
 
+		public void Enable(bool val)
+		{
+			if (!enable & val & !readloop.IsAlive)
+			{
+				readloop = new Thread(new ThreadStart(ReadingLoop));
+				readloop.Start();
+			}
+			enable = val;
+		}
+
 		public string getPluginName()
 		{
 			return "YoutubeLiveReader";
@@ -47,7 +58,7 @@ namespace YoutubeReader
 
 		private void ReadingLoop()
 		{
-			while (true)
+			while (enable)
 			{
 
 				string videoID = "";
@@ -88,7 +99,7 @@ namespace YoutubeReader
 						if (DateTime.Parse(e.Snippet.PublishedAtRaw) > lasttime)
 						{
 							lasttime = DateTime.Parse(e.Snippet.PublishedAtRaw);
-							if (e.Snippet.TextMessageDetails != null)
+							if (e.Snippet.TextMessageDetails != null & !(configdata.OnlySuperchat))
 							{
 								var nameReq = youtubeService.Channels.List("brandingSettings");
 								nameReq.Id = e.Snippet.AuthorChannelId;
@@ -124,7 +135,7 @@ namespace YoutubeReader
 					}
 				}
 				catch { }
-				Thread.Sleep(5000);
+				Thread.Sleep(1000);
 			}
 		}
 
@@ -146,6 +157,7 @@ namespace YoutubeReader
 	{
 		public string ChannnelID;
 		public string APIKey;
+		public bool OnlySuperchat;
 
 		public configs()
 		{

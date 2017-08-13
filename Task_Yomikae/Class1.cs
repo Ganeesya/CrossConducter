@@ -26,8 +26,11 @@ namespace Task_Yomikae
 			return "Yomikae";
 		}
 
-		public void TaskCheck(YomiageTask ntask)
+		public void TaskCheck(YomiageTask ntask, bool preCall)
 		{
+			if (preCall)
+				return;
+
 			string nOut = cForm.cList.tasking(ntask);
 			foreach(CCOutputInterface e in tasker.GetOutputList())
 			{

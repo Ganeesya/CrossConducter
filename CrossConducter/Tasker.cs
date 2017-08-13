@@ -112,20 +112,36 @@ namespace CrossConducter
 				{
 					continue;
 				}
+
+				nowtask.listviewlinkitem.BackColor = System.Drawing.Color.Pink;
+				nowtask.LogTime = DateTime.Now;
+				foreach (CCTaskControllInterface e in taskcontrollers)
+				{
+					e.TaskCheck(nowtask, true);
+				}
+
 				if (!nowtask.Enable)
 				{
+					logPushing(nowtask);
 					nowtask.isDead = true;
 					continue;
 				}
-				nowtask.listviewlinkitem.BackColor = System.Drawing.Color.Pink;
-				nowtask.LogTime = DateTime.Now;
-				log.Push(nowtask);
+				logPushing(nowtask);
 				nowtask.DoOutput();
 				nowtask.isDead = true;
 
 				nowtask = null;
 				break;
 			}
+		}
+
+		private void logPushing(YomiageTask ntask)
+		{
+			using (StreamWriter sw = new StreamWriter("log.txt", true))
+			{
+				sw.WriteLine(ntask.makeLog());
+			}
+			log.Push(ntask);
 		}
 
 		public void close()
@@ -148,6 +164,8 @@ namespace CrossConducter
 		public void addTask(string message, string autherID, string autherName, string autherAddinfo, CCInputInterface adder, string adderAddinfo)
 		{
 			CCOutputInterface def = null;
+
+
 			if(outputers.Count > 0)
 			{
 				def = outputers[0];
@@ -160,7 +178,7 @@ namespace CrossConducter
 
 			foreach(CCTaskControllInterface e in taskcontrollers)
 			{
-				e.TaskCheck(ntask);
+				e.TaskCheck(ntask,false);
 			}
 
 			ntask.updateListItem();
@@ -277,23 +295,26 @@ namespace CrossConducter
 		public string srcAddinfo;
 		public int Speed;
 
-		public YomiageTask(string mes, string id, string name,string auAd, CCOutputInterface def,string f,string addAd,long qnum)
+		public YomiageTask(string mes, string id, string name,string auAd, CCOutputInterface def,string fromsrc,string srcaddinfo,long qnum)
 		{
 			enable = true;
 			message = mes;
 			authorID = id;
 			authorName = name;
 			outputter = def;
-			src = f;
+			src = fromsrc;
 			queuenum = qnum;
 			listviewlinkitem = new ListViewItem(new string[7]{ "1","2","3","4","5","6","7"});
 			isDead = false;
 			authorAddinfo = auAd;
-			srcAddinfo = addAd;
+			srcAddinfo = srcaddinfo;
 			Speed = 100;
 		}
 
-
+		public string makeLog()
+		{
+			return (enable ? "!" : "#") + src + "(" + srcAddinfo + ")\t>>\t" + logtime.ToString() + "\tsay(" +outputter.getPluginName() + ")\t"+ authorName + "(" + authorID + "):" + authorAddinfo + "\t" + message;
+		}
 
 		public void updateListItem()
 		{

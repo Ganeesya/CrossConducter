@@ -9,6 +9,6 @@ namespace CrossConducter
 	public interface CCTaskControllInterface: CCPluginInterface
 	{
 		void init(TaskListDataInterface tasker );
-		void TaskCheck(YomiageTask ntask);
+		void TaskCheck(YomiageTask ntask,bool preCall);
 	}
 }

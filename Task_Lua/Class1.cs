@@ -45,7 +45,7 @@ namespace Task_Lua
 			return "LuaScript";
 		}
 
-		public void TaskCheck(YomiageTask ntask)
+		public void TaskCheck(YomiageTask ntask, bool preCall)
 		{
 			if(configdata.fileTarget == "")
 			{
@@ -62,6 +62,7 @@ namespace Task_Lua
 				{
 					lua.DoString(Encoding.UTF8.GetBytes("list[" + i++ + "]=" + toLuaTable(ele)));
 				}
+				lua.DoString("preCall="+ (preCall?"true":"false"));
 			}
 			catch( NLua.Exceptions.LuaException e)
 			{

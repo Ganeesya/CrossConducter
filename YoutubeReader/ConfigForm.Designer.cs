@@ -34,11 +34,12 @@
 			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
 			this.textBoxChannel = new System.Windows.Forms.TextBox();
 			this.textBoxApiKey = new System.Windows.Forms.TextBox();
+			this.checkBox_OnlySuperChat = new System.Windows.Forms.CheckBox();
 			this.SuspendLayout();
 			// 
 			// buttonOK
 			// 
-			this.buttonOK.Location = new System.Drawing.Point(261, 61);
+			this.buttonOK.Location = new System.Drawing.Point(261, 94);
 			this.buttonOK.Name = "buttonOK";
 			this.buttonOK.Size = new System.Drawing.Size(75, 23);
 			this.buttonOK.TabIndex = 0;
@@ -48,7 +49,7 @@
 			// 
 			// buttonCansel
 			// 
-			this.buttonCansel.Location = new System.Drawing.Point(342, 61);
+			this.buttonCansel.Location = new System.Drawing.Point(342, 94);
 			this.buttonCansel.Name = "buttonCansel";
 			this.buttonCansel.Size = new System.Drawing.Size(75, 23);
 			this.buttonCansel.TabIndex = 1;
@@ -89,11 +90,22 @@
 			this.textBoxApiKey.Size = new System.Drawing.Size(329, 19);
 			this.textBoxApiKey.TabIndex = 5;
 			// 
+			// checkBox_OnlySuperChat
+			// 
+			this.checkBox_OnlySuperChat.AutoSize = true;
+			this.checkBox_OnlySuperChat.Location = new System.Drawing.Point(14, 71);
+			this.checkBox_OnlySuperChat.Name = "checkBox_OnlySuperChat";
+			this.checkBox_OnlySuperChat.Size = new System.Drawing.Size(143, 16);
+			this.checkBox_OnlySuperChat.TabIndex = 6;
+			this.checkBox_OnlySuperChat.Text = "SuperChatのみ読み込む";
+			this.checkBox_OnlySuperChat.UseVisualStyleBackColor = true;
+			// 
 			// ConfigForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(425, 93);
+			this.ClientSize = new System.Drawing.Size(425, 122);
+			this.Controls.Add(this.checkBox_OnlySuperChat);
 			this.Controls.Add(this.textBoxApiKey);
 			this.Controls.Add(this.textBoxChannel);
 			this.Controls.Add(this.linkLabel1);
@@ -115,5 +127,6 @@
 		private System.Windows.Forms.LinkLabel linkLabel1;
 		private System.Windows.Forms.TextBox textBoxChannel;
 		private System.Windows.Forms.TextBox textBoxApiKey;
+		private System.Windows.Forms.CheckBox checkBox_OnlySuperChat;
 	}
 }

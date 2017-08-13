@@ -26,9 +26,10 @@ namespace Task_Yomiyame
 			return "Yomiyame";
 		}
 
-		public void TaskCheck(YomiageTask ntask)
+		public void TaskCheck(YomiageTask ntask, bool preCall)
 		{
-			cForm.cList.tasking(ntask);
+			if(!preCall)
+				cForm.cList.tasking(ntask);
 		}
 
 		public void openConfig()

@@ -17,6 +17,9 @@ namespace AnkoReader
 		Thread tcploop;
 		configs config;
 		TcpListener server;
+
+		bool enable = true;
+
 		public void init(TaskAdderInterface taskadder)
 		{
 			config = configs.Load("AnkoReader.config");
@@ -26,9 +29,19 @@ namespace AnkoReader
 			tcploop.Start();
 		}
 
+		public void Enable(bool val)
+		{
+			if (!enable & val & !tcploop.IsAlive)
+			{
+				tcploop = new Thread(new ThreadStart(TcpListenLoop));
+				tcploop.Start();
+			}
+			enable = val;
+		}
+
 		private void TcpListenLoop()
 		{
-			while(true)
+			while(enable)
 			{
 				try
 				{

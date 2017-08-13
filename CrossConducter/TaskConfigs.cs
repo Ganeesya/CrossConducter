@@ -12,10 +12,11 @@ namespace CrossConducter
 {
 	public partial class PluginConfigs : Form
 	{
-		public PluginConfigs( string title )
+		public PluginConfigs( string title ,bool checkflg)
 		{
 			InitializeComponent();
 			this.Text = title;
+			this.listView1.CheckBoxes = checkflg;
 		}
 
 		private void button1_Click(object sender, EventArgs e)
@@ -35,6 +36,7 @@ namespace CrossConducter
 			{
 				ListViewItem add = new ListViewItem(e.getPluginName());
 				add.Tag = e;
+				add.Checked = true;
 				listView1.Items.Add(add);
 			}
 		}
@@ -54,6 +56,11 @@ namespace CrossConducter
 		{
 			e.Cancel = true;
 			Hide();
+		}
+
+		private void listView1_ItemChecked(object sender, ItemCheckedEventArgs e)
+		{
+			((CCInputInterface)(e.Item.Tag)).Enable(e.Item.Checked);
 		}
 	}
 }

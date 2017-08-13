@@ -57,13 +57,13 @@ namespace CrossConducter
 			toolStripStatusLabel_task.Text = "checker:" + tasker.GetTaskControllList().Count.ToString();
 			toolStripStatusLabel_out.Text = "output:" + tasker.GetOutputList().Count.ToString();
 
-			taskConfigForm = new PluginConfigs("TaskPlugins");
+			taskConfigForm = new PluginConfigs("TaskPlugins",false);
 			taskConfigForm.addLists(tasker.GetTaskControllList().ToList<CCPluginInterface>());
 
-			outConfigForm = new PluginConfigs("OutputPlugins");
+			outConfigForm = new PluginConfigs("OutputPlugins", false);
 			outConfigForm.addLists(tasker.GetOutputList().ToList<CCPluginInterface>());
 
-			inConfigForm = new PluginConfigs("InputPlugins");
+			inConfigForm = new PluginConfigs("InputPlugins",true);
 			inConfigForm.addLists(tasker.GetInputList().ToList<CCPluginInterface>());
 		}
 

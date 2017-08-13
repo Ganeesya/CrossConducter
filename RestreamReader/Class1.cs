@@ -19,6 +19,7 @@ namespace RestreamReader
 		DateTime lasttime;
 		configs configdata;
 		DateTime logPointTime;
+		bool enable = true;
 
 		public void init(TaskAdderInterface taskadder)
 		{
@@ -28,7 +29,17 @@ namespace RestreamReader
 			configdata = configs.Load("Restream.config");
 
 			readloop = new Thread(new ThreadStart(ReadingLoop));
-			readloop.Start();			
+			readloop.Start();
+		}
+
+		public void Enable(bool val)
+		{
+			if (!enable & val & !readloop.IsAlive)
+			{
+				readloop = new Thread(new ThreadStart(ReadingLoop));
+				readloop.Start();
+			}
+			enable = val;
 		}
 
 		public string getPluginName()
@@ -50,12 +61,12 @@ namespace RestreamReader
 					}
 				}
 			}
-			while (true)
+			while (enable)
 			{
 				Thread.Sleep(1000);
 				if(configdata.fileTarget == "")
 				{
-					continue;
+					return;
 				}
 				using (StreamReader sr = new StreamReader(configdata.fileTarget))
 				{
@@ -133,6 +144,7 @@ namespace RestreamReader
 			if(fDig.ShowDialog()==DialogResult.OK)
 			{
 				configdata.fileTarget = fDig.FileName;
+				Enable(enable);
 				configdata.Save("Restream.config");
 			}
 		}

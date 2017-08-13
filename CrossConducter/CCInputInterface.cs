@@ -9,5 +9,6 @@ namespace CrossConducter
 	public interface CCInputInterface: CCPluginInterface
 	{
 		void init( TaskAdderInterface taskadder );
+		void Enable(bool val);
 	}
 }

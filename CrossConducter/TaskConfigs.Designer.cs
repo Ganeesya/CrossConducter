@@ -36,7 +36,7 @@
 			// listView1
 			// 
 			this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-			this.colm});
+            this.colm});
 			this.listView1.FullRowSelect = true;
 			this.listView1.GridLines = true;
 			this.listView1.Location = new System.Drawing.Point(12, 12);
@@ -46,6 +46,7 @@
 			this.listView1.TabIndex = 0;
 			this.listView1.UseCompatibleStateImageBehavior = false;
 			this.listView1.View = System.Windows.Forms.View.List;
+			this.listView1.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.listView1_ItemChecked);
 			this.listView1.DoubleClick += new System.EventHandler(this.listView1_DoubleClick);
 			// 
 			// colm
@@ -63,14 +64,14 @@
 			this.button1.UseVisualStyleBackColor = true;
 			this.button1.Click += new System.EventHandler(this.button1_Click);
 			// 
-			// TaskConfigs
+			// PluginConfigs
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 172);
 			this.Controls.Add(this.button1);
 			this.Controls.Add(this.listView1);
-			this.Name = "TaskConfigs";
+			this.Name = "PluginConfigs";
 			this.Text = "TaskConfigs";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskConfigs_FormClosing);
 			this.ResumeLayout(false);
