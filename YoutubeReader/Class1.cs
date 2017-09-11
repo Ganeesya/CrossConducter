@@ -124,12 +124,18 @@ namespace YoutubeReader
 								}
 								tai.addTask(e.Snippet.TextMessageDetails.MessageText, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, auadinfo, this,"");
 							}
-							else if(e.Snippet.SuperChatDetails != null)
+
+							if(e.Snippet.SuperChatDetails != null)
 							{
 								var nameReq = youtubeService.Channels.List("brandingSettings");
 								nameReq.Id = e.Snippet.AuthorChannelId;
 								var name = nameReq.Execute();
-								tai.addTask(e.Snippet.SuperChatDetails.UserComment, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, "SuperChat", this, e.Snippet.SuperChatDetails.AmountDisplayString);
+								string supermes = e.Snippet.SuperChatDetails.UserComment;
+								if(supermes == null)
+								{
+									supermes = "";
+								}
+								tai.addTask(supermes, e.Snippet.AuthorChannelId, name.Items[0].BrandingSettings.Channel.Title, "SuperChat", this, e.Snippet.SuperChatDetails.AmountDisplayString);
 							}
 						}
 					}

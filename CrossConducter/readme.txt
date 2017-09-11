@@ -30,9 +30,12 @@ AnkoReader 		あんこちゃん入力
 
 YoutubeReader 	Youtubeコメント取得
 
+RestreamReader	RestreamChat経由取得
+
 　☆処理
 Task_Yomikae 	出力先自動切り替え
 Task_Yomiyame 	出力取りやめ
+Task_Lua		Lua制御
 
 　☆出力
 Out_Bouyomi 	棒読みちゃん
@@ -45,6 +48,7 @@ Out_Zunko
 
 //////////////////////////////////////////////////////////
 
+2017/09/11		0.01ｂ	いろいろと変更
 2016/09/09		0.00ｂ	β公開
 
 //////////////////////////////////////////////////////////
